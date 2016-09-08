@@ -38,7 +38,7 @@
         name: docker-py
 
     - name: Set docker insecure-registry pull/push mode
-      shell: echo 'DOCKER_OPTS="--insecure-registry 192.168.1.200:5000"' | tee -a /etc/default/docker
+      shell: echo '{ "insecure-registries":["192.168.1.200:5000"] }' > /etc/docker/daemon.json
 
     - name: Restart service docker
       shell: service docker restart

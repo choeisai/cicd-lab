@@ -17,14 +17,60 @@ ansible |
 
 ## Installation:
 
-- ### Ubuntu 1: Prepare installation
-
+  - ### Ubuntu 1: Prepare installation
   ```sh
   git clone https://github.com/karrung/cicd-lab.git
   cd cicd-lab
   chmod +x ubuntu1-1-init.sh
   ./ubuntu1-1-init.sh
   ```
+
+  - ### Ubuntu 1: Build customize jenkins
+  ```sh
+  docker build -t myjenkins jenkins-docker
+  ```
+
+  - ### Ubuntu 1: Installation and start Jenkins, Docker Registry and Gitlab
+    ```sh
+    docker-compose up -d
+    ```
+
+  - ### Ubuntu 1: Set up Jenkins
+    - Open Jenkins http://192.168.1.200:8080
+      - Initial setup,
+      - Install suggested plugins
+      - Setup admin account
+      - Start using jenkins
+      - Open http://192.168.1.200:8080/pluginManager/available
+        - Install Gitlab Hook Plugin and restart Jenkins
+
+  - ### Ubuntu 1: Set up Gitlab
+    - Open Gitlab http://192.168.1.200:10080
+      - Create new password for root user.
+      - Signin with root user.
+      - New project:
+        - Project name: ckan
+        - Import project from: Repo by URL https://github.com/karrung/ckan.git
+        - Visibility Level: Internal
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Usage:
 
