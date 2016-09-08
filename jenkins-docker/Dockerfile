@@ -1,6 +1,7 @@
 FROM openjdk:8-jdk
 
 RUN apt-get update && apt-get install -y git curl zip sudo ansible && rm -rf /var/lib/apt/lists/*
+RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 
 ENV JENKINS_HOME /var/jenkins_home
 ENV JENKINS_SLAVE_AGENT_PORT 50000
