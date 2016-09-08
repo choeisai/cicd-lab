@@ -1,0 +1,51 @@
+---
+- hosts: lab
+  tasks:
+    - name: Update all packages to the latest version
+      apt:
+        upgrade: dist
+
+    - name: Add docker apt key
+      apt_key:
+        keyserver: hkp://p80.pool.sks-keyservers.net:80
+        id: 58118E89F3A912897C070ADBF76221572C52609D
+
+    - name: Add docker apt repository
+      apt_repository:
+        repo: deb https://apt.dockerproject.org/repo ubuntu-trusty main
+        update_cache: yes
+
+    - name: Remove old docker
+      apt:
+        name: lcx-docker
+        purge: yes
+      failed_when: no
+
+    - name: Install docker
+      apt:
+        name: docker-engine
+
+    - name: Install git
+      apt:
+        name: git
+
+    - name: Install python pip
+      apt:
+        name: python-pip
+
+    - name: Install docker-py
+      pip:
+        name: docker-py
+
+    - name: Set docker insecure-registry pull/push mode
+      shell: echo 'DOCKER_OPTS="--insecure-registry 192.168.1.200:5000"'
+
+    - name: Install and run ckan postgresql container
+      docker:
+        name: db
+        image: ckan/postgresql
+
+    - name: Install and run ckan solr container
+      docker:
+        name: solr
+        image: ckan/solr
