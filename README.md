@@ -26,6 +26,14 @@ Installation:
   ./ubuntu1-1-init.sh
   ```
 
+Usage:
+
+  - Ubuntu 1:
+
+  ```sh
+  ansible-playbook -i ansible/host.txt ansible/prepare_docker.yaml
+  ```
+
 Ubuntu 1
 git clone https://github.com/karrung/cicd-lab.git
 mkdir -p ./assets/gitlab
