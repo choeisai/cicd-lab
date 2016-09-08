@@ -2,22 +2,22 @@
 
 Infrastructure:
 
-![alt tag](https://raw.githubusercontent.com/karrung/cicd-lab/master/documents/images/server_infra1.png)
+![alt tag](https://raw.githubusercontent.com/karrung/cicd-lab/master/documents/images/server_infra-1.png)
 
-Requirement:
+## Requirement:
 
-  - Ubuntu 1:
+Ubuntu 1 | Ubuntu 2
+---------|----------
+IP: 192.168.1.200/24 | IP: 192.168.1.201/24
+docker |
+docker-compose |
+ansible |
 
-    ```
-    IP address: 192.168.1.100/24
+> Note: Both machines run as root user. All machines can ssh access by root without password to another.
 
-    ```
+## Installation:
 
-  - Ubuntu 2:
-
-Installation:
-
-  - Ubuntu 1:
+- ### Ubuntu 1: Prepare installation
 
   ```sh
   git clone https://github.com/karrung/cicd-lab.git
@@ -32,6 +32,7 @@ Usage:
 
   ```sh
   ansible-playbook -i ansible/host.txt ansible/prepare_docker.yaml
+  docker build -t myjenkins jenkins-docker
   ```
 
 Ubuntu 1
@@ -44,3 +45,6 @@ mkdir -p ./assets/redis
 Ubuntu 2
 echo 'DOCKER_OPTS="--insecure-registry 192.168.1.200:5000"' | tee -a /etc/default/docker
 service docker restart
+
+
+echo '{ "insecure-registries":["192.168.1.200:5000"] }' > /etc/docker/daemon.json

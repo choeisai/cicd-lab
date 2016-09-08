@@ -8,5 +8,5 @@ mkdir -p ./assets/redis
 chmod 777 ./assets/*
 
 # Set docker insecure-registry pull/push mode
-echo 'DOCKER_OPTS="--insecure-registry 192.168.1.200:5000"' | tee -a /etc/default/docker
+echo '{ "insecure-registries":["192.168.1.200:5000"] }' > /etc/docker/daemon.json
 service docker restart
