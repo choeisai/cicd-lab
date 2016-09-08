@@ -38,7 +38,10 @@
         name: docker-py
 
     - name: Set docker insecure-registry pull/push mode
-      shell: echo 'DOCKER_OPTS="--insecure-registry 192.168.1.200:5000"'
+      shell: echo 'DOCKER_OPTS="--insecure-registry 192.168.1.200:5000"' | tee -a /etc/default/docker
+
+    - name: Restart service docker
+      shell: service docker restart
 
     - name: Install and run ckan postgresql container
       docker:
