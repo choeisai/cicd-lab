@@ -37,9 +37,6 @@
       pip:
         name: docker-py
 
-    - name: Start service docker
-      shell: service docker start
-
     - name: Set docker insecure-registry pull/push mode
       shell: echo '{ "insecure-registries":["192.168.1.200:5000"] }' > /etc/docker/daemon.json
 

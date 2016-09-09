@@ -42,7 +42,7 @@ ansible |
       - Setup admin account
       - Start using jenkins
       - Open http://192.168.1.200:8080/pluginManager/available
-        - Install Gitlab Hook Plugin and restart Jenkins
+        - Install "GitLab Plugin" and "Gitlab Hook Plugin" restart Jenkins
 
   - ### Ubuntu 1: Set up Gitlab
     - Open Gitlab http://192.168.1.200:10080
@@ -52,45 +52,24 @@ ansible |
         - Project name: ckan
         - Import project from: Repo by URL https://github.com/karrung/ckan.git
         - Visibility Level: Internal
+      - In ckan project:
+        - Webhooks (http://192.168.1.200:10080/root/ckan/hooks):
+          - URL: http://192.168.1.200:8080/project/ckan
+          - Trigger: Push events
 
+  - ### Ubuntu 1: Ansible playbook prepare docker and update packages on Ubuntu 2
+    ```sh
+    ansible-playbook -i ansible/host.txt ansible/prepare_docker.yaml
+    ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Usage:
-
-  - Ubuntu 1:
-
-  ```sh
-  ansible-playbook -i ansible/host.txt ansible/prepare_docker.yaml
-  docker build -t myjenkins jenkins-docker
-  ```
-
-Ubuntu 1
-git clone https://github.com/karrung/cicd-lab.git
-mkdir -p ./assets/gitlab
-mkdir -p ./assets/jenkins_home
-mkdir -p ./assets/postgresql
-mkdir -p ./assets/redis
-
-Ubuntu 2
-echo 'DOCKER_OPTS="--insecure-registry 192.168.1.200:5000"' | tee -a /etc/default/docker
-service docker restart
-
-
-echo '{ "insecure-registries":["192.168.1.200:5000"] }' > /etc/docker/daemon.json
+  - ### Ubuntu 1:  Jenkins create new jobs
+    - Make sure jenkins container can ssh access to Ubuntun 2 192.168.1.201
+    - Enter an item name: ckan
+    - Select Pipeline
+    - Job ckan configure:
+      - Build Triggers: Build when a change is pushed to GitLab. GitLab CI Service URL: http://192.168.1.200:8080/project/ckan
+      - Pipeline:
+        - Definition: Pipeline script from SCM
+          - SCM: Git
+            - Repository URL: http://192.168.1.200:10080/root/ckan.git
+            - Credentials: From your gitlab account
