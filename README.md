@@ -73,3 +73,11 @@ ansible |
           - SCM: Git
             - Repository URL: http://192.168.1.200:10080/root/ckan.git
             - Credentials: From your gitlab account
+
+## Testing
+
+modify `ckan/templates/home/snippets/promoted.html`
+```html
+<h1>Test build by Jenkins 99</h1>
+```
+Push code to Gitlab , after jenkins build success open http://192.168.1.201
